@@ -20,7 +20,7 @@ export default function PaginaCatalogo() {
 
   useEffect(() => {
     cargar({ page, search })
-  }, [cargar, search])
+  }, [cargar, page, search])
 
   const buscar = (e: FormEvent) => {
     e.preventDefault()

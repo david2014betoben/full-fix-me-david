@@ -82,7 +82,7 @@ export default function PaginaDetalleLibro() {
               type="number"
               min={1}
               max={14}
-              {...register('days')}
+              {...register('days', { valueAsNumber: true })}
               className="w-24 rounded-md border border-stone-300 px-3 py-2 outline-none focus:border-amber-500"
             />
             <button

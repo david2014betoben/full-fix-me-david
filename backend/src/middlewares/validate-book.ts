@@ -12,7 +12,8 @@ const bookSchema = z.object({
 export function validateBook(req: Request, res: Response, next: NextFunction) {
   const result = bookSchema.safeParse(req.body)
   if (!result.success) {
-    res.status(400).json({ message: 'Datos inválidos', errors: z.treeifyError(result.error) })
+    return res.status(400).json({ message: 'Datos inválidos', errors: z.treeifyError(result.error) })
   }
+  req.body = result.data
   next()
 }

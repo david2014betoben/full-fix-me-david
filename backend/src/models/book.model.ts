@@ -16,21 +16,17 @@ interface BookFilters {
 }
 
 export async function getAllBooks({ search, page, limit }: BookFilters) {
-  let where = ''
-
-  if (search) {
-    where = `WHERE title ILIKE '%${search}%' OR author ILIKE '%${search}%'`
-  }
-
+  const values: (string | number)[] = search ? [`%${search}%`] : []
+  const where = search ? 'WHERE title ILIKE $1 OR author ILIKE $1' : ''
   const offset = (page - 1) * limit
   const countResult = await pool.query<{ total: number }>(
-    `SELECT COUNT(*)::int AS total FROM books ${where}`
+    `SELECT COUNT(*)::int AS total FROM books ${where}`, values
   )
   const result = await pool.query<Book>(
     `SELECT id, title, author, category, year, stock FROM books ${where}
      ORDER BY title, id
-     LIMIT $1 OFFSET $2`,
-    [limit, offset]
+     LIMIT $${values.length + 1} OFFSET $${values.length + 2}`,
+    [...values, limit, offset]
   )
 
   return { rows: result.rows, total: countResult.rows[0]?.total ?? 0 }

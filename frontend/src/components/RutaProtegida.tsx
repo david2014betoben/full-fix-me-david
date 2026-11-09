@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Navigate } from 'react-router'
+import { Navigate, Outlet } from 'react-router'
 import { useAuthStore } from '../stores/authStore'
 import type { Rol } from '../types'
 
@@ -18,5 +18,5 @@ export default function RutaProtegida({ rolesPermitidos, children }: RutaProtegi
     return <Navigate to="/sin-acceso" replace />
   }
 
-  return <>{children}</>
+  return <>{children ?? <Outlet />}</>
 }

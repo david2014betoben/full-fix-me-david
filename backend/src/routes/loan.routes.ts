@@ -7,7 +7,7 @@ import { validateLoan } from '../middlewares/validate-loan.js'
 const router: Router = Router()
 
 router.post('/', verifyToken, authorize('MIEMBRO'), validateLoan, addLoan)
-router.get('/:id', verifyToken, authorize('MIEMBRO', 'ADMIN'), getLoan)
 router.get('/me', verifyToken, authorize('MIEMBRO'), getMyLoans)
+router.get('/:id', verifyToken, authorize('MIEMBRO', 'ADMIN'), getLoan)
 
 export default router
